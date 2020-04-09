@@ -78,8 +78,6 @@
       </div>
    </section>
    <script>
-      var subtotal = getFromInnerText("subtotal");
-      var total = getFromInnerText("total");
       var phoneQuantity = getFromValue("phoneQuantity");
       var phonePrice = getFromInnerText("phonePrice");
       var caseQuantity = getFromValue("caseQuantity");
@@ -100,22 +98,17 @@
       {
          return quantity*price;
       }
-      function priceUp(id,value)
-      {
-         var current = document.getElementById(id).innerText;
-         var currentNumber = parseFloat(current);
-         var sum = value + currentNumber;
-         document.getElementById(id).innerText = sum;
-      }
       //Acquiring price of phones of specific amount
       document.getElementById("phoneQuantityMinus").addEventListener("click", function()
       {
+         var subtotal = getFromInnerText("subtotal");
+         var casePrice = getFromInnerText("casePrice");
          phoneQuantity = phoneQuantity - 1;
          var phonePriceTotal = multiply(phoneQuantity,phonePrice);
          document.getElementById("phoneQuantityMinus").disabled = false;
          document.getElementById("phoneQuantity").value = phoneQuantity;
          document.getElementById("phonePrice").innerText = phonePriceTotal;
-         document.getElementById("subtotal").innerText = subtotal + phonePriceTotal;
+         document.getElementById("subtotal").innerText = casePrice + phonePriceTotal;
          if(phoneQuantity <= 0)
          {
             document.getElementById("phoneQuantityMinus").disabled = true;
@@ -123,28 +116,29 @@
       })
       document.getElementById("phoneQuantityPlus").addEventListener("click",function ()
       {
+         var subtotal = getFromInnerText("subtotal");
          phoneQuantity = phoneQuantity + 1;
          var phonePriceTotal = multiply(phoneQuantity,phonePrice);
          document.getElementById("phoneQuantityMinus").disabled = false;
          document.getElementById("phoneQuantity").value = phoneQuantity;
          document.getElementById("phonePrice").innerText = phonePriceTotal;
-         document.getElementById("subtotal").innerText = subtotal + phonePriceTotal;
+         document.getElementById("subtotal").innerText = casePrice + phonePriceTotal;
          if(phoneQuantity <= 0)
          {
             document.getElementById("phoneQuantityMinus").disabled = true;
          }
       })
-      
-
       //Acquiring price of cases of specific amount
       document.getElementById("caseQuantityMinus").addEventListener("click", function()
       {
+         var subtotal = getFromInnerText("subtotal");
+         var phonePrice = getFromInnerText("phonePrice");
          caseQuantity = caseQuantity - 1;
          var casePriceTotal = multiply(caseQuantity,casePrice);
          document.getElementById("caseQuantityMinus").disabled = false;
          document.getElementById("caseQuantity").value = caseQuantity;
          document.getElementById("casePrice").innerText = casePriceTotal;
-         document.getElementById("subtotal").innerText = subtotal + casePriceTotal;
+         document.getElementById("subtotal").innerText = phonePrice + casePriceTotal;
          if(caseQuantity <= 0)
          {
             document.getElementById("caseQuantityMinus").disabled = true;
@@ -152,26 +146,25 @@
       })
       document.getElementById("caseQuantityPlus").addEventListener("click",function ()
       {
+         var subtotal = getFromInnerText("subtotal");
+         var phonePrice = getFromInnerText("phonePrice");
          caseQuantity = caseQuantity + 1;
          var casePriceTotal = multiply(caseQuantity,casePrice);
          document.getElementById("caseQuantity").value = caseQuantity;
          document.getElementById("casePrice").innerText = casePriceTotal;
-         document.getElementById("subtotal").innerText = subtotal + casePriceTotal;
+         document.getElementById("subtotal").innerText = phonePrice + casePriceTotal;
          document.getElementById("caseQuantityMinus").disabled = false;
          if(caseQuantity <= 0)
          {
             document.getElementById("caseQuantityMinus").disabled = true;
          }
-         
       })
-
-      //Subtotal and total by clicking Checkout Button
+      //Obtaining Total by clicking Checkout Button
       document.getElementById("checkout").addEventListener("click", function()
       {
-         document.getElementById("total").innerText = phonePriceTotal + casePriceTotal;
+         var GrandTotal = parseFloat(document.getElementById("subtotal").innerText);
+         document.getElementById("total").innerText = GrandTotal;
       })
-
    </script>
 </body>
-
 </html>
