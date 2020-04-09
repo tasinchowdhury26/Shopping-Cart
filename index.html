@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="phoneQuantityMinus" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phoneQuantity" type="text" class="form-control text-center" value="1">
+                           <button id="phoneQuantityPlus" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$<span id="phonePrice">1219</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button id="caseQuantityMinus" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="caseQuantity" type="text" class="form-control text-center" value="1">
+                           <button id="caseQuantityPlus" class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5>$<span id="casePrice">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,19 +64,114 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="subtotal">00</span></h5>
+                        <h5>$ 00</h5>
+                        <h5>$ <span id="total">00</span></h5>
                      </div>
                   </div>
                </div>
                <div class="col-md-12 pt-4 pb-4">
-                  <button type="button" class="btn btn-success check-out">Check Out</button>
+                  <button id="checkout" type="button" class="btn btn-success check-out">Check Out</button>
                </div>
             </div>
          </div>
       </div>
    </section>
+   <script>
+      var subtotal = getFromInnerText("subtotal");
+      var total = getFromInnerText("total");
+      var phoneQuantity = getFromValue("phoneQuantity");
+      var phonePrice = getFromInnerText("phonePrice");
+      var caseQuantity = getFromValue("caseQuantity");
+      var casePrice = getFromInnerText("casePrice");
+      function getFromInnerText(id)
+      {
+         var string = document.getElementById(id).innerText;
+         var number = parseFloat(string);
+         return number;
+      }
+      function getFromValue(id)
+      {
+         var string = document.getElementById(id).value;
+         var number = parseFloat(string);
+         return number;
+      }
+      function multiply(quantity,price)
+      {
+         return quantity*price;
+      }
+      function priceUp(id,value)
+      {
+         var current = document.getElementById(id).innerText;
+         var currentNumber = parseFloat(current);
+         var sum = value + currentNumber;
+         document.getElementById(id).innerText = sum;
+      }
+      //Acquiring price of phones of specific amount
+      document.getElementById("phoneQuantityMinus").addEventListener("click", function()
+      {
+         phoneQuantity = phoneQuantity - 1;
+         var phonePriceTotal = multiply(phoneQuantity,phonePrice);
+         document.getElementById("phoneQuantityMinus").disabled = false;
+         document.getElementById("phoneQuantity").value = phoneQuantity;
+         document.getElementById("phonePrice").innerText = phonePriceTotal;
+         document.getElementById("subtotal").innerText = subtotal + phonePriceTotal;
+         if(phoneQuantity <= 0)
+         {
+            document.getElementById("phoneQuantityMinus").disabled = true;
+         }
+      })
+      document.getElementById("phoneQuantityPlus").addEventListener("click",function ()
+      {
+         phoneQuantity = phoneQuantity + 1;
+         var phonePriceTotal = multiply(phoneQuantity,phonePrice);
+         document.getElementById("phoneQuantityMinus").disabled = false;
+         document.getElementById("phoneQuantity").value = phoneQuantity;
+         document.getElementById("phonePrice").innerText = phonePriceTotal;
+         document.getElementById("subtotal").innerText = subtotal + phonePriceTotal;
+         if(phoneQuantity <= 0)
+         {
+            document.getElementById("phoneQuantityMinus").disabled = true;
+         }
+      })
+      
+
+      //Acquiring price of cases of specific amount
+      document.getElementById("caseQuantityMinus").addEventListener("click", function()
+      {
+         caseQuantity = caseQuantity - 1;
+         var casePriceTotal = multiply(caseQuantity,casePrice);
+         document.getElementById("caseQuantityMinus").disabled = false;
+         document.getElementById("caseQuantity").value = caseQuantity;
+         document.getElementById("casePrice").innerText = casePriceTotal;
+         document.getElementById("subtotal").innerText = subtotal + casePriceTotal;
+         if(caseQuantity <= 0)
+         {
+            document.getElementById("caseQuantityMinus").disabled = true;
+         }
+      })
+      document.getElementById("caseQuantityPlus").addEventListener("click",function ()
+      {
+         caseQuantity = caseQuantity + 1;
+         var casePriceTotal = multiply(caseQuantity,casePrice);
+         document.getElementById("caseQuantity").value = caseQuantity;
+         document.getElementById("casePrice").innerText = casePriceTotal;
+         document.getElementById("subtotal").innerText = subtotal + casePriceTotal;
+         document.getElementById("caseQuantityMinus").disabled = false;
+         if(caseQuantity <= 0)
+         {
+            document.getElementById("caseQuantityMinus").disabled = true;
+         }
+         
+      })
+
+      //Subtotal and total by clicking Checkout Button
+      document.getElementById("checkout").addEventListener("click", function()
+      {
+         document.getElementById("total").innerText = phonePriceTotal + casePriceTotal;
+      })
+
+   </script>
 </body>
 
 </html>
